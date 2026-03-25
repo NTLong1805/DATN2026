@@ -5,5 +5,5 @@ with cte as(
 select
     cast(_AddressTypeID as string) as _id,
     Name,
-    ModifiedDate as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from cte

@@ -8,5 +8,5 @@ select
     Cast(TerritoryID as string) as territory_id,
     cast(StoreID as string) as store_id,
     AccountNumber as account_number,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

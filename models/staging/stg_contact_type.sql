@@ -5,5 +5,5 @@ with src as(
 select
     cast(_ContactTypeID as string) as _id,
     Name as ContactName,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

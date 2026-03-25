@@ -5,5 +5,5 @@ with src as(
 select
     cast(_CurrencyCode as string) as _id,
     Name as CurrunceyName,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

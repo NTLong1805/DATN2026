@@ -6,6 +6,6 @@ select
     cast(_BusinessEntityID as string ) as _id,
     Rate as salary,
     PayFrequency as pay_frequency,
-    RateChangeDate::timestamp as rate_change_date,
-    ModifiedDate::timestamp as _ts
+    cast(RateChangeDate as timestamp) as rate_change_date,
+    cast(ModifiedDate as timestamp) as _ts
 from src

@@ -1,6 +1,6 @@
 with src as(
     select *
-    from {{ref('DATN_RAW','CountryRegion')}}
+    from {{source('DATN_RAW','CountryRegion')}}
 )
 select
     cast(_CountryRegionCode as string) as _id,

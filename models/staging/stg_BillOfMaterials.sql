@@ -9,7 +9,7 @@ select
     BOMLevel,
     PerAssemblyQty,
     UnitMeasureCode,
-    StartDate::timestamp as start_date,
+    cast(StartDate as timestamp) as start_date,
     EndDate as end_date,
-    ModifiedDate as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

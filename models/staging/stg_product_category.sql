@@ -5,5 +5,5 @@ with src as(
 select
     cast(_ProductCategoryID as string) as _id,
     Name as category_name,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

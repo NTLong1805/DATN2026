@@ -8,5 +8,5 @@ select
     CardType as card_type,
     ExpMonth,
     ExpYear,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

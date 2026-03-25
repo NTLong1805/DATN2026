@@ -5,5 +5,5 @@ with src as (
 select
     Cast(EmailAddressID) as _id,
     EmailAddress as email_address,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

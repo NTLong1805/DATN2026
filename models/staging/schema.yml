@@ -23,6 +23,51 @@ sources:
           - name: _ts
             description: Ngay sua thong tin
             type: timestamp
+      - name: BusinessEntity
+      - name: BusinessEntityAddress
+      - name: BusinessEntityContact
+      - name: ContactType
+      - name: CountryRegion
+      - name: CountryRegionCurrency_csv
+      - name: CreditCard
+      - name: Culture
+      - name: Currency_csv
+      - name: CurrencyRate
+      - name: Customer
+      - name: department
+      - name: EmailAddress
+      - name: Employee
+      - name: EmployeeDepartmentHistory
+      - name: EmployeePayHistory
+      - name: person
+      - name: PersonCreditCard
+      - name: PersonPhone
+      - name: PhoneNumberType
+      - name: ProductCategory
+      - name: ProductCostHistory
+      - name: ProductDescription
+      - name: ProductInventory
+      - name: ProductListPriceHistory
+      - name: ProductSubCategory
+      - name: ProductVendor
+      - name: PurchaseOrderDetail
+      - name: PurchaseOrderHeader
+      - name: SalesOrderDetail
+      - name: SalesOrderHeader
+      - name: SalesOrderHeaderSalesReason
+      - name: SalesPerson
+      - name: SalesPersonQuotaHistory
+      - name: SalesReason
+      - name: SalesTaxRate
+      - name: SalesTerritory
+      - name: ScrapReason
+      - name: Shift
+      - name: ShipMethod
+      - name: ShoppingCartItem
+      - name: SpecialOffer
+      - name: SpecialOfferProduct
+      - name: StateProvince
+      - name: SalesTerritoryHistory
       - name: Addresstype
         description: Kieu Dia Chi
         columns:
@@ -58,7 +103,7 @@ sources:
             tests:
               - not_null
           - name: BOMLevel
-            description: 	Indicates the depth the component is from its parent
+            description: Indicates the depth the component is from its parent
             type: text
           - name: UnitMeasureCode
             description: Khoa Ngoai toi bang UnitMeasure
@@ -72,4 +117,53 @@ sources:
           - name: _ts
             description: Ngay chinh sua
             type: timestamp
+      - name: Store
+        description: "Bảng staging cho dữ liệu cửa hàng, bóc tách thông tin chi tiết từ cột Demographics (XML)."
+        columns:
+          - name: _id
+            description: "ID duy nhất của thực thể kinh doanh (Business Entity)."
+            tests:
+              - unique
+              - not_null
+
+          - name: salesperson_id
+            description: "ID của nhân viên kinh doanh phụ trách cửa hàng này."
+
+          - name: store_name
+            description: "Tên chính thức của cửa hàng."
+            tests:
+              - not_null
+
+          - name: annual_sales
+            description: "Doanh số hàng năm bóc tách từ XML."
+
+          - name: annual_revenue
+            description: "Lợi nhuận hàng năm."
+
+          - name: bank_name
+            description: "Tên ngân hàng mà cửa hàng đang giao dịch."
+
+          - name: business_type
+            description: "Loại hình kinh doanh (ví dụ: BM - Bicycle Manufacturer)."
+
+          - name: year_opened
+            description: "Năm cửa hàng bắt đầu đi vào hoạt động."
+
+          - name: specialty
+            description: "Chuyên môn chính của cửa hàng (Mountain, Road, Touring...)."
+
+          - name: square
+            description: "Diện tích cửa hàng (Square Feet)."
+
+          - name: brand
+            description: "Số lượng thương hiệu đang kinh doanh."
+
+          - name: internet
+            description: "Loại kết nối internet (DSL, T1, v.v.)."
+
+          - name: number_employees # Đã sửa lại từ 'internet' trong code SQL của bạn
+            description: "Tổng số lượng nhân viên tại cửa hàng."
+
+          - name: _ts
+            description: "Thời điểm dữ liệu được cập nhật lần cuối."
 

@@ -8,5 +8,5 @@ select
     cast(ShiftID as string) as shift_id,
     StartDate::date as start_date,
     EndDate::date as end_date,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src
