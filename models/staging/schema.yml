@@ -1,0 +1,75 @@
+version: 2
+sources:
+  - name: DATN_RAW
+    project: datn2025-490902
+    dataset: DATN_RAW
+    tables:
+      - name: Address
+        description: Thong tin dia chi khach hang
+        columns:
+          - name: _id
+            description: Khoa chinh cua bang
+            tests:
+              - unique
+              - not null
+          - name: PostalCode
+            description: Ma Van Chuyen
+            tests:
+              - not null
+          - name: AddressLine1
+            description: Dia chi thu nhat cua KH
+          - name: AddressLine2
+            description: Dia chi thu hai cua KH
+          - name: _ts
+            description: Ngay sua thong tin
+            type: timestamp
+      - name: Addresstype
+        description: Kieu Dia Chi
+        columns:
+          - name: _id
+            description: Khoa chinh cua bang
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: Name
+            description: Ten cua kieu dia chi
+            type: text
+          - name: _ts
+            description: Ngay chinh sua
+            type: timestamp
+      - name: BillOfMaterials
+        description: Hoa don cho nguyen vat lieu
+        columns:
+          - name: _id
+            description: Khoa chinh cua bang
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: product_id
+            description: Khoa ngoai toi bang Product
+            type: text
+            tests:
+              - not_null
+          - name: component_id
+            description: ID cua vat lieu
+            type: text
+            tests:
+              - not_null
+          - name: BOMLevel
+            description: 	Indicates the depth the component is from its parent
+            type: text
+          - name: UnitMeasureCode
+            description: Khoa Ngoai toi bang UnitMeasure
+            type: text
+          - name: start_date
+            description: Ngay bat dau vat lieu duoc su dung trong san xuat
+            type: timestamp
+          - name: end_date
+            description: Ngay vat lieu khong con duoc su dung trong san xuat
+            type: timestamp
+          - name: _ts
+            description: Ngay chinh sua
+            type: timestamp
+
