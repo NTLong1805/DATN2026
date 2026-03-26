@@ -4,8 +4,9 @@ with src as(
 )
 select
     cast(_AddressID as string) as _id,
+    cast(StateProvinceID as string) as state_province_id,
     PostalCode,
     AddressLine1,
     AddressLine2,
-    cast(ModifiedDate as timestamp) as _ts as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

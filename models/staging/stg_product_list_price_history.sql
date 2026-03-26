@@ -6,7 +6,7 @@ with src as(
 select
     cast(_ProductID as string) as product_id,
     ListPrice as list_price,
-    cast(StartDate as date) as start_date,
-    cast(EndDate as date) as end_date,
+    safe_cast(StartDate as timestamp) as start_date,
+    safe_cast(EndDate as timestamp) as end_date,
     cast(ModifiedDate as timestamp) as _ts
 from src

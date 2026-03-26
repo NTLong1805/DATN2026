@@ -5,5 +5,5 @@ with src as(
 select
     cast(_CountryRegionCode as string) as _id,
     Name as CountryRegionName,
-    ModifiedDate::timestamp as _ts
+    cast(ModifiedDate as timestamp) as _ts
 from src

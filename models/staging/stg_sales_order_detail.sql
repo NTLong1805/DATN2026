@@ -3,7 +3,7 @@ with src as(
     from {{source('DATN_RAW','SalesOrderDetail')}}
 )
 select
-    cast(_SalesOrderID as string) as sales_orderid,
+    cast(_SalesOrderID as string) as order_id,
     cast(SalesOrderDetailID as string) as _id,
     CarrierTrackingNumber as carrier_tracking,
     cast(ProductID as string) as product_id,

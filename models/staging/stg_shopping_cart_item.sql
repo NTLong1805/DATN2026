@@ -4,7 +4,7 @@ with src as(
 )
 select
     cast(_ShoppingCartItemID as string) as shoppingcart_item_id,
-    cast(_ShoppingCardID as string) as _id,
+    cast(ShoppingCartID as string) as _id,
     Quantity as quantity,
     cast(ProductID as string) as product_id,
     cast(DateCreated as timestamp) as date_created,

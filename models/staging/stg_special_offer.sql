@@ -1,11 +1,11 @@
 with src as(
     select *
-    from {{source('DATN_RAW','SpecialOfferProduct')}}
+    from {{source('DATN_RAW','SpecialOffer')}}
 )
 select
     cast(_SpecialOfferID as string) as _id,
     Type as offer_type,
-    Description as desc,
+    Description as description,
     Category as category,
     DiscountPct as discount_pct,
     MaxQty as max_quantity,

@@ -4,7 +4,7 @@ with src as(
 )
 select
     cast(_SalesOrderID as string) as _id,
-    cast(SalesOrderNumber as string) as sales_order_number,
+    cast(SalesOrderNumber as string) as order_number,
     RevisionNumber as revision_number,
     cast(OrderDate as timestamp) as order_date,
     cast(DueDate as timestamp) as due_date,
