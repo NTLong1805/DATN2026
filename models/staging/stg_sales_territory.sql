@@ -6,6 +6,7 @@ select
     cast(_TerritoryID as string) as _id,
     Name as TerritoryName,
     cast(CountryRegionCode as string) as country_region_code,
+    `Group` as continent,
     SalesYTD as sales_ytd,
     SalesLastYear as sales_last_year,
     CostYTD as cost_ytd,
