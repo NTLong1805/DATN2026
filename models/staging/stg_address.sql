@@ -8,6 +8,6 @@ select
     City as city,
     PostalCode as postal_code,
     AddressLine1 as main_address,
-    AddressLine2,
+    AddressLine2 as second_address,
     cast(ModifiedDate as timestamp) as _ts
 from src

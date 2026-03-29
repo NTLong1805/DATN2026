@@ -4,7 +4,7 @@ with src as(
 )
 select
     cast(_WorkOrderID as string) as _id,
-    ScrapReasonID as scarp_reason_id,
+    ScrapReasonID as scrap_reason_id,
     cast(ProductID as string) as product_id,
     OrderQty as order_quantity,
     StockedQty as stocked_quantity, -- Stocked = Order - Scarpped

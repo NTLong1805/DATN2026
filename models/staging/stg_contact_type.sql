@@ -4,6 +4,6 @@ with src as(
 )
 select
     cast(_ContactTypeID as string) as _id,
-    Name as ContactName,
+    Name as contact_description,
     cast(ModifiedDate as timestamp) as _ts
 from src

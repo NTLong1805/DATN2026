@@ -3,7 +3,7 @@ with src as(
     from {{source('DATN_RAW','TransactionHistory')}}
 )
 select
-    Cast(ReferenceOrderLineID as string) as order_number_id,
+    Cast(ReferenceOrderLineID as string) as order_number,
     cast(ReferenceOrderID as string) as order_id,
     cast(_TransactionID as string) as _id,
     cast(ProductID as string) as product_id,

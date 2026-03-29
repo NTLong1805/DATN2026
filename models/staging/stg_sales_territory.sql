@@ -4,7 +4,7 @@ with src as(
 )
 select
     cast(_TerritoryID as string) as _id,
-    Name as TerritoryName,
+    Name as territory_name,
     cast(CountryRegionCode as string) as country_region_code,
     `Group` as continent,
     SalesYTD as sales_ytd,

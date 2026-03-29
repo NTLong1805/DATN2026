@@ -4,6 +4,6 @@ with src as(
 )
 select
     cast(_PhoneNumberTypeID as string) as _id,
-    Name as type_name,
+    Name as phone_number_type,
     cast(ModifiedDate as timestamp) as _ts
 from src

@@ -5,72 +5,1206 @@ sources:
     dataset: DATN_RAW
     tables:
       - name: Address
-        description: Thong tin dia chi khach hang
+        description: Thông tin địa chỉ khách hàng
         columns:
           - name: _id
-            description: Khoa chinh cua bang
-
-          - name: PostalCode
-            description: Ma Van Chuyen
-
-          - name: AddressLine1
-            description: Dia chi thu nhat cua KH
-          - name: AddressLine2
-            description: Dia chi thu hai cua KH
+            description: Khóa chính định danh duy nhất của bảng
+          - name: postal_code
+            description: Mã bưu chính
+          - name: main_address
+            description: Địa chỉ chính của KH
+            type: text
+          - name: second_address
+            description: Địa chỉ thứ 2 của KH
+            type: text
           - name: _ts
-            description: Ngay sua thong tin
+            description: Ngày sửa thông tin
             type: timestamp
+          - name: city
+            description: City of address
+            type: text
       - name: BusinessEntity
+        description: Source of the ID that connects vendors, customers, and employees with address and contact information.
+        columns:
+          - name: entity_id
+            description: Khóa chính định danh duy nhất của bảng. Khóa chính cho khách hàng, nhà cung cấp, và nhana viên.
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: BusinessEntityAddress
+        description: Bảng đối chiếu giúp liên kết thông tin khách hàng, nhà cung cấp và nhân viên với địa chỉ của họ.
+        columns:
+          - name: _id
+            description: Khóa chính. Khóa ngoại của bảng BusinessEntity
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: address_type_id
+            description: Khóa chính. Khóa ngoại tới bảng AddressType
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: address_id
+            description: Khóa chính. Khóa ngoại tới bảng Address
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: BusinessEntityContact
+        description: Bảng đối chiếu chéo thể hiện mối liên hệ giữa cửa hàng, nhà cung cấp và nhân viên với con người.
+        columns:
+          - name: _id
+            description: Khóa chính. Khóa ngoại của bảng BusinessEntity
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: contact_type_id
+            description: Khóa chính. Khóa ngoại tới bảng ContactType
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: person_id
+            description: Khóa chính. Khóa ngoại tới bảng person
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: ContactType
+        description: Bảng tra cứu chứa các loại liên hệ của thực thể kinh doanh.
+        columns:
+          - name: _id
+            description: Khóa chính định danh duy nhất của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: contact_description
+            description: Miêu tả cho ContactType
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: CountryRegion
+        description: Bảng tra cứu cho mã code ISO cho quốc gia và vùng lãnh thổ
+        columns:
+          - name: _id
+            description: Khóa định danh duy nhất của bảng.Mã ISO cho quốc gia và vùng lãnh thổ
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: country
+            description: Tên quốc gia
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: CountryRegionCurrency_csv
+        description: Bảng tham chiếu mã ISO của tiền tệ của mỗi quốc gia
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. Mã ISO của tiền tệ
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: country_code
+            description: Mã ISO cho quốc gia và vùng lãnh thổ. Khóa ngoại liên kết với country_region
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: CreditCard
+        description: Thông tin thẻ tín dụng của khách hàng
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng.
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: card_num
+            description: Số thẻ tín dụng
+            type: text
+          - name: card_type
+            description: Tên thẻ tín dụng
+            type: text
+          - name: exp_month
+            description: Tháng hết hạn của thẻ tín dụng
+          - name: exp_year
+            description: Năm hết hạn của thẻ tín dụng
       - name: Culture
+        description: Bảng tra cứu những ngôn ngữ được lưu trữ ở database
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: culture_name
+            description: Tên ngôn ngữ
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: Currency_csv
+        description: Bảng tra cứu thông tin tiền tệ
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. Mã ISO của tiền tệ
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: currency_name
+            description:  Tên của tiền tệ
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: CurrencyRate
+        description: Bảng tra cứu tỉ lệ đổi tiền giữa các loại tiền tệ
       - name: Customer
+        description: Thông tin của khách hàng. Liên kết với bảng Person và Shop.
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của Customer
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: person_id
+            description: Mã định danh của person. Là khóa ngoại liên kết tới bảng Person
+            type: text
+          - name: store_id
+            description: Mã định danh của store. Là khóa ngoại liên kết tới bảng store
+            type: text
+          - name: territory_id
+            description: Mã định danh của lãnh thổ. Là khóa ngoại liên kết tới bảng Territory
+            type: text
+          - name: account_number
+            description: được viết theo định dạng isnull('AW'+[ufnLeadingZeros]([CustomerID]),''). Mã số duy nhất dùng để nhận dạng khách hàng, được hệ thống kế toán gán cho.
+            type: text
+          - name: _ts
+            description:  Ngày chỉnh sửa
+            type: timestamp
       - name: department
+        description: Là bảng tra cứu thông tin phòng ban trong công ty AdventureWork
+        columns:
+          - name: _id
+            description: Là mã định danh duy nhất của bảng. Mã phòng ban
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: department_name
+            description: Tên phòng ban
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: EmailAddress
+        description: Bảng tra cứu địa chỉ Email
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. Mã ID của Email
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: person_id
+            description:  Mã định danh của Person. Khóa ngoại tới bảng person
+            type: text
+          - name: email_address
+            description: Địa chỉ Email
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: Employee
+        description: Thông tin của nhân viên như lương, phòng ban, và chức vụ.
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của nhân viên
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: national_id
+            description: Mã CCCD của nhân viên
+            type: text
+          - name: login_id
+            type: text
+          - name: organization_level
+            description: Vị trí của nhân viên trong hệ thống phân cấp doanh nghiệp
+            type: int
+          - name: job_title
+            description: Chức vụ nhân viên
+            type: text
+          - name: birth_date
+            description: ngày sinh của nhân viên
+            type: timestamp
+          - name: martial_status
+            description: Tình trạng hôn nhân
+            type: text
+          - name: sex
+            description: Giới tính
+            type: text
+          - name: hire_date
+            description: Ngày được tuyển dụng
+            type: timestamp
+          - name: is_offical
+            description: Đã là nhân viên chính thức chưa. 0 = chưa, 1 = rồi
+            type: int
+          - name: holiday_hour
+            description: Số giờ được nghỉ phép
+            type: int
+          - name: absent
+            description: Số số vắng mặt do ốm
+            type: int
+          - name: status
+            description: Tình trạng nhân viên. 1 = active, 0 = inactive
+            type: int
+          - name: _ts
+            description: Ngày chỉnh sửa
+            type: timestamp
       - name: EmployeeDepartmentHistory
+        description: Lịch sử chuyển phòng ban của nhân viên
+        columns:
+          - name: _id
+            description: Mã định danh của nhân viên(Employee_id)
+            type: text
+          - name: department_id
+            description: Mã định danh phòng ban
+            type: text
+          - name: shift_id
+            description: Mã định danh ca làm việc
+            type: text
+          - name: start_date
+            description: Ngày bắt đầu làm việc
+            type: timestamp
+          - name: end_date
+            description: Ngày kết thúc làm việc
+            type: timestamp
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: EmployeePayHistory
+        description: Lịch sử lương của nhân viên
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của nhân viên(Employee_id)
+            type: text
+          - name: salary
+            description: Lương theo giờ
+            type: Numeric
+          - name: pay_frequency
+            description: Thời gian trả lương. 1 = Trả lương theo tháng. 2 = Trả lương theo tuần
+            type: int64
+          - name: rate_change_date
+            description: Ngày có hiệu lực sự thay đổi về lương
+            type: timestamp
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: person
+        description: Bảng thông tin Person bao gồm Employee,Customer và Vendor
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. Khóa chính
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: title
+            description: Danh hiệu lịch sự Mr,Ms,Mrs,...
+            type: text
+          - name: suffix
+            description: Hậu tố họ
+            type: text
+          - name: last_name
+            description: Họ
+            type: text
+          - name: middle_name
+            description: Tên đệm
+            type: text
+          - name: first_name
+            description: Tên
+            type: text
+          - name: name_style
+            description: 0 = The data in FirstName and LastName are stored in western style (first name, last name) order. 1 = Eastern style (last name, first name) order.
+            type: bytes
+          - name: person_type
+            description: Primary type of person SC = Store Contact, IN = Individual (retail) customer, SP = Sales person, EM = Employee (non-sales), VC = Vendor contact, GC = General contact
+            type: text
+          - name: purchase_amount_ytd
+            description: Chi tiêu của khách hàng từ năm ngoái
+            type: numeric
+          - name: date_first_purchase
+            description: Ngày đầu tiên mua hàng của khách hàng
+            type: timestamp
+          - name: birth_date
+            description: Ngày sinh
+            type: timestamp
+          - name: martial_status
+            description: Tình trạng hô nhân
+            type: text
+          - name: yearly_income
+            description: Thu nhập hằng năm
+            type: numeric
+          - name: sex
+            description: Giới tính
+            type: text
+          - name: total_children
+            description: Số lượng con
+            type: numeric
+          - name: total_children_at_home
+            description: Số lượng con chưa đi học
+            type: numeric
+          - name: education
+            description: Trình độ học vấn
+            type: text
+          - name: occupation
+            description: Nghề nghiệp
+            type: text
+          - name: is_homeowner
+            description: Đã sở hữu nhà chưa
+            type: bytes
+          - name: car_owned
+            description: Số lượng xe sở hữu
+            type: numeric
+          - name: commute_distance
+            description: Khoảng cách đến với cửa hàng gần nhất
+            type: text
+          - name: email_promotion
+            description: 	0 = Contact does not wish to receive e-mail promotions, 1 = Contact does wish to receive e-mail promotions from AdventureWorks, 2 = Contact does wish to receive e-mail promotions from AdventureWorks and selected partners.
+            type: numeric
+          - name: additional_contact_info
+            description: Thông tin thêm của khách hàng được lưu dưới dạng yml
       - name: PersonCreditCard
+        description: Bảng tham chiếu tới thông tin thẻ tín dụng của từng person
+        columns:
+          - name: _id
+            description: Mã định danh của person. Khóa ngoại liên kết tới bảng person. Khóa chính của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: credit_card_id
+            description: Mã định danh của thẻ tín dụng. Khóa ngoại liên kết tới bảng credit_card. Ghép với _id làm cặp khóa chính của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: _ts
+            description: Ngày chỉnh sửa record.
+            type: timestamp
       - name: PersonPhone
+        description: Số điện thoại và kiểu số điện thoại
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của person. Khóa ngoại liên kết tới bảng person.
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: credit_card_id
+            description: Mã định danh duy nhất của credit_card. Khóa ngoại liên kết tới bảng credit_card
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: _ts
+            description: Ngày chỉnh sửa records
+            type: timestamp
       - name: PhoneNumberType
+        description: Kiểu số điện thoại của từng người. Cell = Điện thoại bàn, Home = Điện thoại nhà, Work= Điện thoại cơ quan
+        columns:
+          - name: _id
+            descriptions: Mã định danh duy nhất của bảng.
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: phone_number_type
+            descriptions: Kiểu số điện thoại
+            type: text
+          - name: _ts
+            descriptions: Ngày chỉnh sửa records
+            type: timestamp
       - name: ProductCategory
+        description: Phân loại sản phẩm
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của danh mục sản phẩm
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: category_name
+            description: Tên danh mục sản phẩm
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa thông tin
+            type: timestamp
       - name: ProductCostHistory
+        description: Sự thay đổi của chi phí sản phẩm
+        columns:
+          - name: product_id
+            description: Mã định danh của sản phẩm. Là khóa ngoại liên kết tới bảng Product
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: standard_cost
+            description: Giá tiêu chuẩn của sản phẩm
+            type: numeric
+          - name: start_date
+            description: Ngày bắt đầu bán sản phẩm với giá đó
+            type: timestamp
+          - name: end_date
+            description: Ngày kết thúc bán sản phẩm với giá đó
+            type: timestamp
+          - name: _ts
+            description: Ngày chỉnh sửa records
+            type: timestamp
       - name: ProductDescription
+        description: Mô tả sản phẩm
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. Mã mô tả sản phẩm
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: description
+            description: Mô tả sản phẩm
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa record
+            type: timestamp
       - name: ProductInventory
+        description: Thông tin hàng tồn kho
       - name: ProductListPriceHistory
+        description: Sự thay đổi của giá bán theo thời gian
+        columns:
+          - name: product_id
+            description: Mã định danh của sản phẩm. Khóa ngoại liên kết tới bảng Product
+            type: text
+          - name: list_price
+            description: Giá bán
+            type: numeric
+          - name: start_date
+            description: Ngày bắt đầu với giá bán đó
+            type: timestamp
+          - name: end_date
+            description: Ngày kết thúc với giá bán đó
+            type: timestamp
+          - name: _ts
+            description: Ngày chỉnh sửa records
+            type: timestamp
       - name: ProductSubCategory
+        description: Danh mục phụ sản phẩm
+        columns:
+          - name: product_category_id
+            description: Danh mục sản phẩm. Khóa ngoại liên kết tới bảng product_category
+            type: text
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của danh mục phụ sản phẩm
+            type: text
+          - name: subcategory_name
+            description: Tên danh mục phụ sản phẩm
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa records
+            type: timestamp
       - name: ProductVendor
+        description: Bảng đối chiếu các nhà cung cấp và các sản phẩm mà họ cung cấp
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của nhà cung cấp
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: product_id
+            description: Mã định danh của sản phẩm. Khóa ngoại liên kết tới bảng Product
+            type: text
+          - name: standard_price
+            description: Giá bán thông thường của người bán
+            type: numeric
+          - name: average_leadtime
+            description: Khoảng thời gian trung bình từ lúc order đến lúc nhận được sản phẩm
+            type: numeirc
+          - name: last_receipt_cost
+            description: Giá bán khi mua lần cuối
+            type: numeric
+          - name: max_order_quantity
+            description: Số lượng sản phẩm tối đa có thể order
+            type: numeric
+          - name: min_order_quantity
+            description: Số lượng sản phẩm tối thiểu có thể order
+            type: numeric
+          - name: on_order_quantity
+            description: Số lượng sản phẩm đang được order
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa records
+            type: timestamp
       - name: PurchaseOrderDetail
+        description: Chi tiết đơn hàng mua từ các nhà cung cấp
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng.
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: order_id
+            description: Mã định danh của PurchaseOrder. Khóa ngoại liên kết với PurchaseOrderHeader
+            type: text
+          - name: due_date
+            description: Ngày kì vọng nhận được hàng
+            type: timestamp
+          - name: product_id
+            description: Mã định danh của Product. Khóa ngoại liên kết với Product
+            type: text
+          - name: order_quantity
+            description: Số lượng product đang được order
+            type: numeric
+          - name: unit_price
+            description: Giá bán của sản phẩm do nhà cung cấp đưa ra
+            type: numeric
+          - name: stocked_quantity
+            description: Số lượng sản phẩm được chấp nhận vào kho. Được tính bằng received - rejected
+            type: numeric
+          - name: received_quantity
+            description: Số lượng sản phẩm thực tế nhận được
+            type: numeric
+          - name: rejected_quantity
+            description: Số lượng sản phẩm bị từ chối sau khi kiểm tra
+            type: numeric
+          - name: line_total
+            description: Tổng giá tiền cho mỗi sản phẩm. order_quantity * unitprice
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa record
+            type: timestamp
       - name: PurchaseOrderHeader
+        description: Thông tin chung của đơn nhập hàng từ nhà cung cấp
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. order_id của mỗi đơn hàng nhập từ nhà cung cấp
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: revision_number
+            description: Số thứ tự để theo dõi tiến trình đơn hàng
+            type: int
+          - name: status
+            description: Tình trạng tiến trình đơn hàng 1 = Pending 2 = Approved 3 = Rejected 4 = Complete
+            type: int
+          - name: employee_id
+            description: Mã định danh Employee. mã nhân viên xem nhân viên nào là người đặt hàng
+            type: text
+          - name: vendor_id
+            description: Mã định danh Vendor. Khóa ngoại liên kết tới bảng Vendor
+            type: text
+          - name: ship_method_id
+            description: Mã định danh của ship_method. Khóa ngoại liên quan tới bảng ShipMethod
+            type: text
+          - name: order_date
+            description: Ngày đặt đơn hàng
+            type: timestamp
+          - name: ship_date
+            description: Ngày bắt đầu giao hàng
+            type: timestamp
+          - name: tax_amount
+            description: Phí thuế của đơn hàng
+            type: numeric
+          - name: ship_amount
+            description: Phí vận chuyển của đơn hàng
+            type: numeric
+          - name: purchase_amount
+            description: Giá trị sản phẩm của đơn hàng
+            type: numeric
+          - name: total_amount
+            description: Tổng giá trị của đơn hàng. Ship + Tax + Purchase
+            type: numeric
       - name: SalesOrderDetail
+        description: Thông tin chi tiết đơn hàng bán
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: order_id
+            description: Mã định danh của đơn hàng. Khóa ngoại liên kết tới bảng SalesOrderHeader
+            type: text
+          - name: carrier_tracking
+            description: Mã số vận đơn do người gửi cung cấp
+            type: text
+          - name: product_id
+            description: Mã định danh cho sản phẩm. Khóa ngoại liên kết tới bảng Product
+            type: text
+          - name: order_quantity
+            description: Số lượng sản phẩm được đặt
+            type: numeric
+          - name: specialoffer_id
+            description: Mã định danh cho giảm giá. Khóa ngoại liên kết tới bảng SpecialOffer
+            type: text
+          - name: unit_price
+            description: Giá sản phẩm được bán ra
+            type: numeric
+          - name: unit_price_discount
+            description: Giá sản phẩm được giảm giá
+            type: numeric
+          - name: line_total
+            description: Tổng giá trị cho mỗi sản phẩm UnitPrice * (1 - UnitPriceDiscount) * OrderQty.
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa record
+            type: timestamp
       - name: SalesOrderHeader
+        description: Thông tin chung cho mỗi đơn hàng được bán
+        columns:
+          - name: _id
+            description: là mã định danh duy nhất của bảng(order_id)
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: order_number
+            description: Mã số định danh đơn đặt hàng duy nhất
+            type: text
+          - name: revision_number
+            description: Số thứ tự để theo dõi tiến trình đơn hàng
+            type: int
+          - name: order_date
+            description: Ngày đặt hàng
+            type: timestamp
+          - name: due_date
+            description: Ngày giao hàng cho khách hàng
+            type: timestamp
+          - name: status
+            description: Tình trạng tiến trình đơn hàng 1 = Pending 2 = Approved 3 = Rejected 4 = Complete
+            type: int
+          - name: is_online
+            description: 0 = KH mua hàng offline 1 = KH mua hàng Online
+            type: int
+          - name: account_number
+            description: Mã số kế toán tham chiếu tài chính
+            type: text
+          - name: customer_id
+            description: Mã định danh Khách hàng. Là khóa ngoại liên kết tới bảng Customer
+            type: text
+          - name: salesperson_id
+            description: Mã định danh người bán hàng. Là khóa ngoại liên kết tới bảng SalesPerson
+            type: text
+          - name: territory_id
+            description: Mã định danh của khu vực mua. Là khóa ngoại liên kết tới bảng Territory
+            type: text
+          - name: bill_address_id
+            description: Mã định danh địa chỉ của người mua. Địa chỉ thanh toán của KH. Khóa ngoại liên kết tới bảng Address
+            type: text
+          - name: ship_address_id
+            description: Mã định danh địa chỉ nhận hàng của người mua. Khóa ngoại liên kết tới bảng Address
+            type: text
+          - name: shipmethod_id
+            description: Mã định danh loại hình giao hàng. Khóa ngoại liên kết tới bảng ShipMethod
+            type: text
+          - name: creditcard_id
+            description: Mã định danh thẻ tín dụng. Khóa ngoại liên kết tới bảng creditcard
+            type: text
+          - name: creditcrd_approval
+            description: Mã xác nhận do công ty phát hành thẻ tín dụng cung cấp
+            type: text
+          - name: currency_rate_id
+            description: Mã định danh của giá trị đổi tiền. Khóa ngoại liên kết tới bảng currency_rate
+            type: text
+          - name: sales_amount
+            description: Doanh thu bán hàng. Computed as SUM(SalesOrderDetail.LineTotal)for the appropriate SalesOrderID.
+            type: numeric
+          - name: tax_amount
+            description: Thuế đơn hàng
+            type: numeric
+          - name: ship_amount
+            description: Phí vận chuyển đơn hàng
+            type: numeric
+          - name: total_amount
+            description: Tổng giá trị khách hàng phải trả cho đơn hàng. = sales_amount + tax_amount + ship_amount
+            type: numeric
+          - name: comment
+            description: Người bán hàng bình luận hoặc ghi chú về đơn hàng
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: SalesOrderHeaderSalesReason
+        description: Bảng đối chiếu với lý do bán hàng(SalesReason)
+        columns:
+          - name: order_id
+            description: Cặp khóa chính. Khóa ngoại liên kết tới bảng SalesOrderHeader
+            type: text
+          - name: reason_id
+            description: Cặp khóa chính. Khóa ngoại liên kết tới bảng SalesReason
+            type: text
       - name: SalesPerson
+        description: Thông tin của người tiếp thị bán hàng
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của người tiếp thị bán hàng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: territory_id
+            description: Mã định danh của khu vực bán hàng. Khóa ngoại liên kết tới bảng Territory
+            type: text
+          - name: sales_quota_amount
+            description: Doanh số dự kiến hằng năm
+            type: numeric
+          - name: bonus_amount
+            description: Thưởng nếu đạt doanh số
+            type: numeric
+          - name: commission_amount
+            description: Số phần trăm hoa hồng được nhận
+            type: numeric
+          - name: sales_last_year
+            description: Doanh thu của năm trước
+            type: numeric
+          - name: sales_ytd
+            description: Doanh số từ đầu năm đến nay
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: SalesPersonQuotaHistory
+        description: Theo dõi hiệu suất bán hàng
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của nhân viên bán hàng. Kết hợp với quota_date thành cụm khóa chính
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: quota_date
+            description: Ngày cuối cùng để tính đạt đủ doanh số không
+            type: timestamp
+            tests:
+              - not_null
+              - unique
+          - name: sales_quota
+            description: Doanh số dự kiến
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: SalesReason
+        description: Bảng tra cứu nguyên nhân mua hàng của từng đơn đặt hàng
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của từng SalesReason
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: reason_name
+            description: Mô tả nguyên nhân bán hàng
+            type: text
+          - name: reason_type
+            description: Danh mục của những nguyên nhân bán hàng
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: SalesTaxRate
+        description: Bảng tra cứu các loại thuế
+        columns:
+          - name: _id
+            description: Khóa định danh duy nhất của bảng. ID của mã thuế
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: state_province_id
+            description: Khóa định danh của StateProvince. Khóa ngoại liên kết tới bảng StateProvince
+            type: text
+          - name: tax_type
+            description: 1 = Thuế dành cho những giao dịch bán lẻ. 2 = Thuế áp dụng dành cho giao dịch bán buôn. 3 = Thuế áp dụng cho cả bán lẻ và bán buôn
+            type: int
+          - name: tax_name
+            description: Tỉ lệ thuế
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa records
+            type: timestamp
       - name: SalesTerritory
+        description: Bảng tra cứu các khu vực bán hàng
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của khu vực bán hàng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: territory_name
+            description: Tên khu vực bán hàng
+            type: text
+          - name: country_region_code
+            description: Mã định danh cho Country_Region. Khóa ngoại liên kết tới bảng CountryRegion
+            type: text
+          - name: continent
+            description: Khu vực địa lý của địa chỉ bán hàng.
+            type: text
+          - name: sales_ytd
+            description: Doanh thu của cửa hàng từ đầu năm cho tới nay
+            type: numeric
+          - name: sales_last_year
+            description: Doanh số bán hàng của năm ngoái
+            type: numeric
+          - name: cost_ytd
+            description: Chi phí kinh doanh tạm tính từ đầu năm đến hôm nay
+            type: numeric
+          - name: cost_last_year
+            description: Chi phí kinh doanh của năm ngoái
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: ScrapReason
+        description: Bảng tra cứu nguyên nhân sản xuất lỗi
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: scrap_name
+            description: Nguyên nhân sản xuất lỗi
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: Shift
+        description: Bảng tra cứu ca làm việc
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của ca làm
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: shift_name
+            description: Tên của ca làm
+            type: text
+          - name: start_time
+            description: Thời gian bắt đầu ca làm việc
+            type: datetime
+          - name: end_time
+            description: Thời gian kết thúc ca làm việc
+            type: datetime
+          - name: _ts
+            description: Thời gian chỉnh sửa records
+            type: timestamp
       - name: ShipMethod
+        description: Bảng tra cứu công ty vận chuyển
+        columns:
+          - name: _id
+            descrition: Mã định danh duy nhất của bảng. ID của công ty vận chuyển
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: shipcompany_name
+            description: Tên công ty vận chuyển
+            type: text
+          - name:  ship_base
+            description: Phí vận chuyển tối thiểu
+            type: numeric
+          - name: ship_rate
+            description: Phí vận chuển tính theo cân
+            type: numeric
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: ShoppingCartItem
       - name: SpecialOffer
+        description: Bảng tra cứu Giảm giá bán hàng
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: offer_type
+            description: Danh mục loại giảm giá
+            type: text
+          - name: description
+            description: Mô tả giảm giá
+            type: text
+          - name: category
+            description: Phân nhóm đối tượng giảm giá. Reseller hoặc  Customer
+            type: text
+          - name: discount_pct
+            description: Phần trăm giảm giá
+            type: numeric
+          - name: max_quantity
+            description: Số lượng tối đa được ưu đãi
+            type: int
+          - name: min_quantity
+            description: Số lượng tối thiểu được ưu đãi
+            type: int
+          - name: start_date
+            description: Ngày bắt đầu ưu đãi
+            type: timestamp
+          - name: end_date
+            description: Ngày kết thúc ưu đãi
+            type: timestamp
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: SpecialOfferProduct
+        description: Bảng tham chiếu mapping giữa bảng Product và SpecialOffer
+        columns:
+          - name: specialoffer_id
+            description: Mã định danh của SpecialOffer. Khóa ngoại của bảng SpecialOffer
+            type: text
+          - name: product_id
+            description: Mã định danh của Product. Khóa ngoại của bảng Product
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: StateProvince
+        description: Bảng tra cứu các bang và tỉnh
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID của bang
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: state_province_code
+            description: Mã định danh của StateProvince.Mã ISO của từng bang. Khóa ngoại liên kết với bảng StateProvince
+            type: text
+          - name: country_region_code
+            description: Mã định danh của CountryRegion. Mã ISO của từng quốc gia. Khóa ngoại liên kết với CountryRegion
+            type: text
+          - name: is_True
+            description: 0 = StateProvinceCode exists. 1 = StateProvinceCode unavailable.
+            type: bytes
+          - name: state_province_name
+            description: Tên của thành phố hoặc là bang
+            type: text
+          - name: territory_id
+            description: Mã định danh của cửa hàng trong khu vực đó. Khóa ngoại liên kết với bảng SalesTerritory
+            type: text
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: SalesTerritoryHistory
+        description: Lịch sử chuyển đổi của các nhân viên bán hàng qua các cửa hàng khác nhau trong hệ thống
+        columns:
+          - name: salesperson_id
+            description: Mã định danh của SalesPerson. Khóa ngoại liên kết tới bảng SalesPerson
+            type: text
+          - name: territory_id
+            description: Mã định danh của Territory. Khóa ngoại liên kết tới bảng SalesTerritory
+            type: text
+          - name: start_date
+            description: Ngày bắt đầu làm việc
+            type: timestamp
+          - name: end_date
+            description: Ngày kết thúc làm việc
+            type: timestamp
+          - name: _ts
+            description: Ngày chỉnh sửa bản ghi
+            type: timestamp
       - name: TransactionHistory
+        description: Bản ghi cho mỗi giao dịch nhập hàng, giao dịch bán hàng, giao dịch sản xuất từ đầu năm đến nay
+        columns:
+          - name: order_number
+            description: Số thứ tự dòng tương ứng với đơn đặt hàng mua, đơn đặt hàng bán hoặc lệnh sản xuất.
+            type: text
+          - name: order_id
+            description: Mã định danh cho từng đơn hàng(OrderID). Mã số định danh đơn đặt hàng, đơn bán hàng hoặc lệnh sản xuất.
+            type: text
+          - name: _id
+            description: Mã định danh duy nhất của bảng.
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: product_id
+            description: Mã định danh cho Product. Khóa ngoại liên kết tới bảng Product
+            type: text
+          - name: order_date
+            description: Ngày đặt hàng
+            type: timestamp
+          - name: transaction_type
+            description: Loại giao dịch
+            type: text
+          - name: quantity
+            description: Số lượng hàng trong đơn hàng
+            type: int
+          - name: cost_amount
+            description: Chi phí cho sản phẩm
+            type: numeric
       - name: TransactionHistoryArchive
+        description: Bản ghi cho mỗi giao dịch nhập hàng, giao dịch bán hàng, giao dịch sản xuất trong toàn bộ lịch sử
+        columns:
+          - name: order_number
+            description: Số thứ tự dòng tương ứng với đơn đặt hàng mua, đơn đặt hàng bán hoặc lệnh sản xuất.
+            type: text
+          - name: order_id
+            description: Mã định danh cho từng đơn hàng(OrderID). Mã số định danh đơn đặt hàng, đơn bán hàng hoặc lệnh sản xuất.
+            type: text
+          - name: _id
+            description: Mã định danh duy nhất của bảng.
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: product_id
+            description: Mã định danh cho Product. Khóa ngoại liên kết tới bảng Product
+            type: text
+          - name: order_date
+            description: Ngày đặt hàng
+            type: timestamp
+          - name: transaction_type
+            description: Loại giao dịch
+            type: text
+          - name: quantity
+            description: Số lượng hàng trong đơn hàng
+            type: int
+          - name: cost_amount
+            description: Chi phí cho sản phẩm
+            type: numeric
       - name: UnitMeasure
+        description: Bảng tra cứu đơn vị đo lường
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID cho từng measure
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: name
+            description: Tên của đơn vị đo lường
+            type: text
       - name: Vendor
+        description: Bảng thông tin nhà cung cấp cho AdventureWork
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng. ID cho nhà cung cấp
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: account_number
+            description: Số tài khoản định danh của nhà cung cấp
+            type: text
+          - name: name
+            description: Tên của nhà cung cấp
+            type: text
+          - name: credit_rating
+            description: Đánh giá thẻ tín dụng 1 = Superior, 2 = Excellent, 3 = Above average, 4 = Average, 5 = Below average
+            type: int
+          - name: prefer_status
+            description: Còn nhập hàng từ nhà cung cấp này không? 0 = Vendor no longer used. 1 = Vendor is actively used.
       - name: WorkOrder
+        description: Yêu cầu sản xuất cho Product
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng.
+            type: text
+            tests:
+              - unique
+              - not_null
+          - name: scrap_reason_id
+            description: Mã định danh cho ScrapReason. Khóa ngoại liên kết với ScrapReason
+            type: text
+          - name: product_id
+            description: Mã định danh cho Product. Khóa ngoại liên kết với Product
+            type: text
+          - name: order_quantity
+            description: Số lượng product được order để sản xuất
+            type: int
+          - name: scrapped_quantity
+            description: Số lượng product mà thất bại với việc điều tra
+            type: int
+          - name: stocked_quantity
+            description: Số lượng sản phẩm được lưu vào kho. = Order - Scrapped
+            type: int
+          - name: start_date
+            description: Ngày bắt đầu
+            type: timestamp
+          - name: end_date
+            description: Ngày kết thúc
+            type: timestamp
+          - name: due_date
+            description: Ngày hết hạn
+            type: timestamp
       - name: WorkOrderRouting
+        description: Chi tiết về việc sản xuất
+        columns:
+          - name: _id
+            description: Mã định danh duy nhất của bảng
+            type: text
+            tests:
+              - not_null
+              - unique
+          - name: product_id
+            description: Mã định danh của Product. Khóa ngoại liên kết tới bảng Product
+            type: text
+          - name: operation_sequence
+            description: Biểu thị trình tự quy trình sản xuất
+            type: int
+          - name: location_id
+            description: Mã định danh của Location. Khóa ngoại liên kết tới bảng Location
+            type: string
+          - name: schedule_start_date
+            description: Ngày sản xuất dự kiến
+            type: timestamp
+          - name: schedule_end_date
+            description: Ngày hoàn thành dự kiến
+            type: timestamp
+          - name: real_start_date
+            description: Ngày sản xuất thực tế
+            type: timestamp
+          - name: real_end_date
+            description: Ngày hoàn thành thực tế
+            type: timestamp
+          - name: time_spent
+            description: Số giờ sản xuất đã sử dụng
+            type: numeric
+          - name: planned_cost
+            description: Chi phí sản xuất dự kiến
+            type: numeric
+          - name: real_cost
+            description: Chi phí sản xuất thực tế
+            type: numeric
       - name: Addresstype
         description: Kieu Dia Chi
         columns:
@@ -89,11 +1223,9 @@ sources:
           - name: _id
             description: Khoa chinh cua bang
             type: text
-
           - name: product_id
             description: Khoa ngoai toi bang Product
             type: text
-
           - name: component_id
             description: ID cua vat lieu
             type: text
@@ -122,45 +1254,32 @@ sources:
             tests:
               - unique
               - not_null
-
           - name: salesperson_id
             description: "ID của nhân viên kinh doanh phụ trách cửa hàng này."
-
           - name: store_name
             description: "Tên chính thức của cửa hàng."
             tests:
               - not_null
-
           - name: annual_sales
             description: "Doanh số hàng năm bóc tách từ XML."
-
           - name: annual_revenue
             description: "Lợi nhuận hàng năm."
-
           - name: bank_name
             description: "Tên ngân hàng mà cửa hàng đang giao dịch."
-
           - name: business_type
             description: "Loại hình kinh doanh (ví dụ: BM - Bicycle Manufacturer)."
-
           - name: year_opened
             description: "Năm cửa hàng bắt đầu đi vào hoạt động."
-
           - name: specialty
             description: "Chuyên môn chính của cửa hàng (Mountain, Road, Touring...)."
-
           - name: square
             description: "Diện tích cửa hàng (Square Feet)."
-
           - name: brand
             description: "Số lượng thương hiệu đang kinh doanh."
-
           - name: internet
             description: "Loại kết nối internet (DSL, T1, v.v.)."
-
-          - name: number_employees # Đã sửa lại từ 'internet' trong code SQL của bạn
+          - name: number_employees
             description: "Tổng số lượng nhân viên tại cửa hàng."
-
           - name: _ts
             description: "Thời điểm dữ liệu được cập nhật lần cuối."
 

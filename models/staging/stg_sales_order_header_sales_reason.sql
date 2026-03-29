@@ -3,6 +3,6 @@ with src as(
     from {{source('DATN_RAW','SalesOrderHeaderSalesReason')}}
 )
 select
-    cast(_SalesOrderID as string) as sales_orderid,
-    cast(SalesReasonID as string) as sales_reasonid
+    cast(_SalesOrderID as string) as order_id,
+    cast(SalesReasonID as string) as reason_id
 from src

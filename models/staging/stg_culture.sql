@@ -4,6 +4,6 @@ with src as(
 )
 select
     cast(_CultureID as string) as _id,
-    Name as CultureName,
+    Name as culture_name,
     cast(ModifiedDate as timestamp) as _ts
 from src

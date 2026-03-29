@@ -9,7 +9,7 @@ select
     cast(OrderDate as timestamp) as order_date,
     cast(DueDate as timestamp) as due_date,
     Status as status,
-    OnlineOrderFlag as online_order_flag,
+    OnlineOrderFlag as is_online, -- KH Mua hàng onl hay off
     AccountNumber as account_number,
     cast(CustomerID as string) as customer_id,
     cast(SalesPersonID as string) as salesperson_id,

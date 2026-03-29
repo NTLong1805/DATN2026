@@ -36,7 +36,7 @@ models:
       + materialized: table
     intermediate:
       + schema: staging
-      + materialized: ephemeral
+      + materialized: view
     warehouse:
       + materialized: table
     sensitive:

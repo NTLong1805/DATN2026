@@ -12,6 +12,6 @@ select
     safe_cast(ActualStartDate as timestamp) as real_start_date,
     safe_cast(ActualEndDate as timestamp) as real_end_date,
     ActualResourceHrs as time_spent,
-    PlannedCost as planted_cost,
+    PlannedCost as planned_cost,
     ActualCost as real_cost
 from src
