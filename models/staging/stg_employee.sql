@@ -1,8 +1,9 @@
 with src as(
     select *
     from {{source('DATN_RAW','Employee')}}
-)
-select
+),
+final as(
+    select
     Cast(_BusinessEntityID as string) as _id,
     cast(NationalIDNumber as string) as national_id,
     cast(LoginID as string) as login_id,
@@ -18,3 +19,7 @@ select
     CurrentFlag as status, -- 1 active 0 inactive
     cast(ModifiedDate as timestamp) as _ts
 from src
+)
+select *
+from final
+where _id is not null
