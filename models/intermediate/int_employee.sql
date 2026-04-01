@@ -34,7 +34,11 @@ final as(
         e.national_id,
         e.organization_level,
         e.job_title,
-        concat(coalesce(p.last_name,' '),coalesce(p.middle_name,' '),coalesce(p.first_name,' ')) as full_name,
+        case
+            when cast(name_style as int64) = 0 then concat(coalesce(p.last_name,' '),' ',coalesce(p.middle_name,' '),' ',coalesce(p.first_name,' '))
+            when cast(name_style as int64) = 1 then concat(coalesce(p.first_name,' '),' ',coalesce(p.middle_name,' '),' ',coalesce(p.last_name,' '))
+            end
+        as full_name,
         p.person_type,
         e.birth_date,
         e.martial_status,
