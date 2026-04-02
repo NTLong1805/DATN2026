@@ -7,6 +7,7 @@ final as(
     Cast(_BusinessEntityID as string) as _id,
     cast(NationalIDNumber as string) as national_id,
     cast(LoginID as string) as login_id,
+    Path as path_node,
     OrganizationLevel as organization_level,
     JobTitle as job_title,
     cast(BirthDate as timestamp) as birth_date,
@@ -22,4 +23,4 @@ from src
 )
 select *
 from final
-where _id is not null
+where _id is not null and path_node is not null

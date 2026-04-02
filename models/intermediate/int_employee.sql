@@ -28,11 +28,13 @@ latestRate as(
     from rankLastRate
     where rn = 1
 ),
-final as(
+employee as(
     select
         e._id as employee_id,
         e.national_id,
         e.organization_level,
+        REGEXP_REPLACE(e.path_node, r'[^/]+/$', '') AS manager_node,
+        path_node,
         e.job_title,
         case
             when cast(name_style as int64) = 0 then concat(coalesce(p.last_name,' '),' ',coalesce(p.middle_name,' '),' ',coalesce(p.first_name,' '))
@@ -65,7 +67,16 @@ final as(
         on d._id = ld.department_id
     left join latestRate lr
         on lr.employee_id = e._id
-
+),
+employee_manager as(
+    select e.*,
+        case
+            when manager_node = '/' then '1'
+            else se._id
+        end as manager_id
+    from employee as e
+    left join {{ref('stg_employee')}} as se
+        on se.path_node = e.manager_node
 )
 select *
-from final
+from employee_manager
