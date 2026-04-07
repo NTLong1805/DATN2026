@@ -1,32 +1,25 @@
-with rankLastDepartment as(
-    select *,
-           rank() over(partition by _id order by start_date desc) as rn
-    from {{ref('stg_employee_department_history')}}
-),
-latestDepartment as(
+with latestDepartment as(
     select
         _id as employee_id,
         department_id,
         shift_id,
         start_date,
-        end_date
-    from rankLastDepartment
-    where rn = 1
+        end_date,
+        is_current
+    from {{ref('int_employee_department_scd2')}}
+    where is_current is true
 ),
-rankLastRate as (
-    select
-        *,
-        rank() over (partition by _id order by rate_change_date desc) as rn
-    from {{ref('stg_employee_pay_history')}}
-),
+
 latestRate as(
     select
         _id as employee_id,
         salary,
         pay_frequency,
-        rate_change_date
-    from rankLastRate
-    where rn = 1
+        start_date,
+        end_date,
+        is_current
+    from {{ref('int_employee_pay_scd2')}}
+    where is_current is true
 ),
 employee as(
     select
@@ -52,12 +45,10 @@ employee as(
         e.status,
         d.department_name,
         d.department_group_name,
-        ld.start_date,
-        ld.end_date,
         ld.shift_id,
         lr.salary,
         lr.pay_frequency,
-        lr.rate_change_date
+        lr.is_current
     from {{ref('stg_employee')}} e
     left join {{ref('stg_person')}} as p
         on e._id = p._id
@@ -78,5 +69,25 @@ employee_manager as(
     left join {{ref('stg_employee')}} as se
         on se.path_node = e.manager_node
 )
-select *
+select
+    employee_id,
+    national_id,
+    organization_level as level,
+    job_title,
+    full_name,
+    person_type,
+    birth_date,
+    martial_status,
+    sex,
+    hire_date,
+    is_offical,
+    holiday_hour,
+    absent_hour,
+    status,
+    department_name,
+    department_group_name,
+    shift_id,
+    salary,
+    pay_frequency,
+    manager_id
 from employee_manager
