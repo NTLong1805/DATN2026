@@ -9,6 +9,6 @@ select
     cast(ProductID as string) as product_id,
     cast(TransactionDate as timestamp) as order_date,
     TransactionType as transaction_type,
-    Quantity as quantity,
-    ActualCost as cost_amount
+    cast(Quantity as int) as quantity,
+    cast(ActualCost as FLOAT64) as cost_amount
 from src

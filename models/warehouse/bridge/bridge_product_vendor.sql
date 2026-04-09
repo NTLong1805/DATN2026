@@ -11,8 +11,8 @@ with final as(
         pv.last_receipt_cost,
         pv.max_order_quantity,
         pv.min_order_quantity
-    from {{ref('stg_vendor')}} as v
-    left join {{ref('stg_product_vendor')}} as pv
+    from {{ref('dim_vendor')}} as v
+    left join {{ref('dim_product_vendor')}} as pv
         on pv._id = v._id
 )
 select *

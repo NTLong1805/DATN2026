@@ -1334,4 +1334,7 @@ sources:
             description: "Thời điểm dữ liệu được cập nhật lần cuối."
           - name: Demographic
             description: Thông tin của cửa hàng được lưuằng file yml đã được xử lý
+      - name: Product
+        description: 1 dòng là thông tin 1 product
+
 
