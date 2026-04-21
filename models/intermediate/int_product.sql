@@ -4,6 +4,7 @@ select
     p.product_model_id,
     p.product_subcategory_id,
     p.product_name,
+    pdc.description,
     p.size,
     p.class,
     p.color,
@@ -35,3 +36,7 @@ left join {{ref('int_product_cost_scd2')}} as c_scd2
     on p._id = c_scd2.product_id and c_scd2.is_current = true
 left join {{ref('int_product_price_scd2')}} as p_scd2
     on p._id = p_scd2.product_id and p_scd2.is_current = true
+left join {{ref('stg_product_description_culture')}} as pdc
+    on p.product_model_id = pdc._id and
+left join {{ref('stg_product_description')}} as pd
+    on pd._id = pdc.description_id

@@ -17,5 +17,6 @@ with final as(
 )
 select *
 from final
+where product_id is not null
 
 

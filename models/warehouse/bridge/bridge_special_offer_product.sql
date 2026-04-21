@@ -6,7 +6,7 @@ with final as(
            so.category,
            so.discount_pct,
            so.min_quantity,
-           so.max_quantity,
+           coalesce(so.max_quantity,9999999) as max_quantity,
            so.start_date,
            so.end_date
     from {{ref('dim_special_offer')}} so

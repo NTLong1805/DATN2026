@@ -4,7 +4,7 @@ with cte as(
         c.person_id,
         c.account_number,
         p.person_type,
-        concat(coalesce(p.last_name,' '),coalesce(p.middle_name,' '),coalesce(p.first_name,' ')) as full_name,
+        concat(coalesce(p.last_name,' '),' ',coalesce(p.middle_name,' '),' ',coalesce(p.first_name,' ')) as full_name,
         pp.phone_number,
         pnt.phone_number_type,
         ea.email_address,

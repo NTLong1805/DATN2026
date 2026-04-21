@@ -5,14 +5,16 @@ with cte as(
         soh.order_date,
         soh.due_date,
         soh.ship_date,
+        soh.status,
+        soh.is_online,
         soh.purchase_order_number,
         soh.account_number,
+        soh.customer_id,
         c.full_name,
         st.territory_name,
         ad1.main_address as bill_address_id,
         ad2.main_address as ship_address_id,
         sm.shipcompany_name,
-
         soh.creditcard_id,
         soh.creditcard_approval,
         soh.comment
