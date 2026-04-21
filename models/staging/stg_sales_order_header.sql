@@ -8,9 +8,11 @@ select
     RevisionNumber as revision_number,
     cast(OrderDate as timestamp) as order_date,
     cast(DueDate as timestamp) as due_date,
+    cast(ShipDate as timestamp) as ship_date,
     Status as status,
     OnlineOrderFlag as is_online, -- KH Mua hàng onl hay off
     AccountNumber as account_number,
+    PurchaseOrderNumber as purchase_order_number,
     cast(CustomerID as string) as customer_id,
     cast(SalesPersonID as string) as salesperson_id,
     cast(TerritoryID as string) as territory_id,
