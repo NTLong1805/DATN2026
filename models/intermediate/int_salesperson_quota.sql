@@ -41,7 +41,6 @@ on sp._id = cte._id
 left join {{ref('stg_sales_territory')}} st
 on st._id = sp.territory_id
 left join {{ref('stg_sales_territory_history')}} sth
-on sth.salesperson_id = sp._id
-where cte.quota_date <= sth.end_date
+on sth.salesperson_id = sp._id and st._id = sth.territory_id and cte.quota_date between sth.start_date and sth.end_date
 order by cte._id,cte.quota_date
 

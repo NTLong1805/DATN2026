@@ -5,7 +5,7 @@ with src as(
 
 select
     cast(_ProductID as string) as product_id,
-    ListPrice as list_price,
+    cast(ListPrice as float64) as list_price,
     safe_cast(StartDate as timestamp) as start_date,
     safe_cast(EndDate as timestamp) as end_date,
     cast(ModifiedDate as timestamp) as _ts

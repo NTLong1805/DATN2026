@@ -7,11 +7,11 @@ select
     cast(PurchaseOrderDetailID as string) as _id,
     cast(DueDate as timestamp) as due_date,
     Cast(ProductID as string) as product_id,
-    OrderQty as order_quantity,
-    UnitPrice as unit_price,
-    StockedQty as stocked_quantity,
-    ReceivedQty as received_quantity,
-    RejectedQty as rejected_quantity,
-    LineTotal as line_total,
+    cast(OrderQty as float64) as order_quantity,
+    cast(UnitPrice as float64) as unit_price,
+    cast(StockedQty as float64) as stocked_quantity,
+    cast(ReceivedQty as float64) as received_quantity,
+    cast(RejectedQty as float64) as rejected_quantity,
+    cast(LineTotal as float64) as line_total,
     cast(ModifiedDate as timestamp) as _ts
 from src

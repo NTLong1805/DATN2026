@@ -5,10 +5,10 @@ with src as(
 select
     cast(_BusinessEntityID as string) as _id,
     cast(TerritoryID as string) as territory_id,
-    SalesQuota as sales_quota_amount, -- Doanh so du kien cua nam
-    Bonus as bonus_amount,
-    CommissionPct as commission_amount,
-    SalesYTD as sales_ytd,
-    SalesLastYear as sales_last_year,
+    safe_cast(SalesQuota as float64) as sales_quota_amount, -- Doanh so du kien cua nam
+    safe_cast(Bonus as float64) as bonus_amount,
+    safe_cast(CommissionPct as float64) as commission_amount,
+    safe_cast(SalesYTD as float64) as sales_ytd,
+    safe_cast(SalesLastYear as float64) as sales_last_year,
     cast(ModifiedDate as timestamp) as _ts
 from src

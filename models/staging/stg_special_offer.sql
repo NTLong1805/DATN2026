@@ -7,9 +7,9 @@ select
     Type as offer_type,
     Description as description,
     Category as category,
-    DiscountPct as discount_pct,
-    MaxQty as max_quantity,
-    MinQty as min_quantity,
+    safe_cast(DiscountPct as float64) as discount_pct,
+    safe_cast(MaxQty as float64) as max_quantity,
+    safe_cast(MinQty as float64) as min_quantity,
     Cast(StartDate as timestamp) as start_date,
     cast(EndDate as timestamp) as end_date,
     cast(ModifiedDate as timestamp) as _ts

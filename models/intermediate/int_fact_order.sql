@@ -2,10 +2,11 @@
 -- Suppose: Miss thông tin lịch sử price trong bảng price history
 -- Hoặc là đàm phán hoặc giảm giá do nhân viên tự cung cấp giá sales price
 -- Hiện tại vẫn lấy giữ liệu từ unit price để thống nhất lịch sử bán hàng.
+-- Khi update cột mới cần phải full-refresh: dbt run --full-refresh -m int_fact_order
 {{
     config(
         materialized = 'incremental',
-        unique_key = '_id',
+        unique_key = 'order_detail_id',
         on_schema_change = 'fail',
         sort = ['order_date'],
         incremental_strategy = 'merge'
@@ -14,6 +15,7 @@
 with cte as(
     select
         soh._id,
+        sod._id as order_detail_id,
         soh.order_number,
         sod.carrier_tracking,
         p.product_name,

@@ -11,7 +11,7 @@ select
     cast(ScheduledEndDate as timestamp) as schedule_end_date,
     safe_cast(ActualStartDate as timestamp) as real_start_date,
     safe_cast(ActualEndDate as timestamp) as real_end_date,
-    ActualResourceHrs as time_spent,
-    PlannedCost as planned_cost,
-    ActualCost as real_cost
+    cast(ActualResourceHrs as float64) as time_spent,
+    cast(PlannedCost as float64) as planned_cost,
+    cast(ActualCost as float64) as real_cost
 from src

@@ -22,10 +22,10 @@ select
     cast(CreditCardID as string) as creditcard_id,
     CreditCardApprovalCode as creditcard_approval,
     cast(CurrencyRateID as string) as currency_rate_id,
-    SubTotal as sales_amount,
-    TaxAmt as tax_amount,
-    Freight as ship_amount,
-    TotalDue as total_amount,
+    cast(SubTotal as float64) as sales_amount,
+    cast(TaxAmt as float64) as tax_amount,
+    cast(Freight as float64) as ship_amount,
+    cast(TotalDue as float64) as total_amount,
     Comment as comment,
     cast(ModifiedDate as timestamp) as _ts
 from src

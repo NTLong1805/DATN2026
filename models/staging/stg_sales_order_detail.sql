@@ -7,10 +7,10 @@ select
     cast(SalesOrderDetailID as string) as _id,
     CarrierTrackingNumber as carrier_tracking,
     cast(ProductID as string) as product_id,
-    OrderQty as order_quantity,
+    cast(OrderQty as float64) as order_quantity,
     cast(SpecialOfferID as string) as specialoffer_id,
-    UnitPrice as unit_price,
-    UnitPriceDiscount as unit_price_discount,
-    LineTotal as line_total,
+    cast(UnitPrice as float64) as unit_price,
+    cast(UnitPriceDiscount as float64) as unit_price_discount,
+    cast(LineTotal as float64) as line_total,
     cast(ModifiedDate as timestamp) as _ts
 from src
