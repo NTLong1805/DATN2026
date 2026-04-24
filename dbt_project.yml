@@ -45,6 +45,7 @@ models:
       + materialized: table
       + schema: sensitive
     mart:
+      + schema: mart
       + materialized: view
 
 

@@ -13,6 +13,7 @@ with cte as(
         e.full_name as employee_name,
         soh.customer_id,
         c.full_name as customer_name,
+        st._id as territory_id,
         st.territory_name,
         ad1.main_address as bill_address_id,
         ad2.main_address as ship_address_id,

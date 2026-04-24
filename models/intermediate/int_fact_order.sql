@@ -19,6 +19,8 @@ with cte as(
         soh.order_number,
         sod.carrier_tracking,
         p.product_name,
+        p.subcategory_name,
+        p.category_name,
         sod.order_quantity,
         sod.unit_price as sell_price,
         case
