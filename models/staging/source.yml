@@ -4,6 +4,8 @@ sources:
     project: datn2025-490902
     dataset: DATN_RAW
     tables:
+      - name: ProductReview
+        description: 1 dòng là 1 đánh giá về sản phẩm
       - name: Address
         description: Thông tin địa chỉ khách hàng
         columns:

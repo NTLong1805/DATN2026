@@ -18,6 +18,7 @@ with cte as(
         sod._id as order_detail_id,
         soh.order_number,
         sod.carrier_tracking,
+        p._id as product_id,
         p.product_name,
         p.subcategory_name,
         p.category_name,
@@ -28,6 +29,7 @@ with cte as(
             when sod.unit_price = pscd2.price then 'STANDARD'
         end as price_type,
         p.price as standard_price,
+        p.standard_cost,
         sod.unit_price_discount,
         sop.offer_type,
         sop.category,
@@ -38,8 +40,8 @@ with cte as(
         soh.sales_amount,
         soh.tax_amount,
         soh.ship_amount,
-        soh.total_amount,
-        soh.order_date
+        soh.order_date,
+        soh.is_online
     from {{ref('stg_sales_order_header')}} as soh
     left join {{ref('stg_sales_order_detail')}} as sod
         on sod.order_id = soh._id

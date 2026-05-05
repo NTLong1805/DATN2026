@@ -248,3 +248,5 @@ final as (
 
 select *
 from final
+
+-- Nếu có thể với lí do mua hàng đầu tiên sẽ dẫn đến lí do mua hàng nào tiếp theo

@@ -15,12 +15,13 @@ with cte as(
         c.full_name as customer_name,
         st._id as territory_id,
         st.territory_name,
-        ad1.main_address as bill_address_id,
-        ad2.main_address as ship_address_id,
+        ad1.main_address as bill_address,
+        ad2.main_address as ship_address,
         sm.shipcompany_name,
         soh.creditcard_id,
         soh.creditcard_approval,
-        soh.comment
+        soh.comment,
+        total_amount
     from {{ref('stg_sales_order_header')}} as soh
 --     left join {{ref('stg_sales_order_detail')}} as sod
 --      on sod.order_id = soh._id

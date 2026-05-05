@@ -47,5 +47,8 @@ models:
     mart:
       + schema: mart
       + materialized: view
+    core:
+      + schema: core
+      + materialized: table
 
 

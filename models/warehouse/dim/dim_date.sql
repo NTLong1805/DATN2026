@@ -6,8 +6,8 @@
 with date_spine as(
     {{dbt_utils.date_spine(
         datepart = "day",
-        start_date = "cast('2008-01-01' as date)",
-        end_date = "cast('2015-01-01' as date)"
+        start_date = "cast('2011-05-01' as date)",
+        end_date = "cast('2014-07-01' as date)"
     )}}
 )
 SELECT
